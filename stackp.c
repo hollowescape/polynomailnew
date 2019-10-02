@@ -5,8 +5,8 @@
 		printf(" insuffient memory");\
 	}\
 
-#define REALLOC(n,p,s)\
-	if(!((n)=realloc((p),(s)))){\
+#define REALLOC(p,s)\
+	if(!((p)=realloc((p),(s)))){\
 		printf(" insuffient memory");\
 	}\
 
@@ -14,26 +14,27 @@
 	{
 		int key;
 	}element;
-	element stack[1];
+	
+	element *stack;
+
+	
 	int top=-1;
 	int cp=1;
 	void rall(element *s)
 	{	
-		element *new;
-		REALLOC(new,s,2*cp*sizeof(element));
-		new=s;
-		cp++;
+		REALLOC(s,cp*sizeof(element));
+		cp=cp*2;
 	}
-	void push(element item,int s,int *top)
-	{	
-		if(*top>=s)
+	void push(element item,int n,int *top)
+	{	//printf("%d",*top);
+		if(*top>=cp)
 		{
 			rall(stack);
-		}
-		else
-		{
+			printf("hi");
+		}		
 			stack[++*top]=item;
-		}
+			printf("%d",*top);
+		
 	}
 
 	element pop()
@@ -60,6 +61,9 @@
 	{
 		element d,p;
 		int c,s;
+		MALLOC(stack,sizeof(element));
+		int n=0;
+		//printf(" size of stack is %d",n);
 		printf(" enter the choice \n");
 		while(1)
 		{
@@ -69,8 +73,8 @@
 			{
 				case 1: printf("enter the elment to insert\n");
 						scanf("%d",&d.key);
-						s=sizeof(element);
-						push(d,s,&top);
+						n=sizeof(int);
+						push(d,n,&top);
 						break;
 				case 2: p=pop();
 						printf(" element poped off is %d",p.key);
@@ -80,4 +84,5 @@
 				case 4: exit(0);
 			}
 		}
+		free(stack);
 	}		
